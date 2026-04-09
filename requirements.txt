@@ -1,0 +1,27 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Spherical K-Means++ Sentiment Clustering — Requirements
+# ─────────────────────────────────────────────────────────────────────────────
+# Install with:
+#   pip install -r requirements.txt
+#
+# GPU acceleration (optional but recommended for SBERT on large datasets):
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Core NLP — SBERT
+sentence-transformers>=2.6.0    # Provides all-MiniLM-L6-v2; pulls in torch + transformers
+
+# Manifold reduction
+umap-learn>=0.5.6               # UMAP with cosine metric support
+numba>=0.57.0                   # UMAP backend (usually installed automatically)
+
+# ML / numerics
+scikit-learn>=1.4.0             # silhouette_score, davies_bouldin_score, etc.
+numpy>=1.24.0
+scipy>=1.11.0
+
+# Data handling
+pandas>=2.0.0
+
+# Visualization
+matplotlib>=3.7.0
