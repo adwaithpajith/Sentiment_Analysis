@@ -2,7 +2,7 @@
 
 **SBERT + UMAP + Spherical K-Means++ with Curvature-Aware Centroids**
 
-Silhouette score: `0.0104` (TF-IDF baseline) → **`≥ 0.70`** (this pipeline)
+Silhouette score: 0.70 
 
 ---
 
@@ -129,26 +129,3 @@ embeddings to `outputs/sbert_embeddings.npy` so you can re-run
 clustering experiments without re-encoding.
 
 ---
-
-## Why the Old Pipeline Scored 0.0104
-
-| Problem | Root Cause |
-|---|---|
-| TF-IDF in 500D | Curse of dimensionality: all pairwise distances converge |
-| No semantic encoding | "horrible" and "terrible" have zero overlap → different clusters |
-| Stemming destroyed negations | "not good" → "good" after preprocessing |
-| Arithmetic mean centroid | Mean of unit vectors is NOT a unit vector (off-manifold) |
-| Euclidean K-Means++ seed | Spreads seeds in Euclidean space, not on sphere surface |
-| k=3 with 25 samples | 8–9 samples per cluster → extreme overfit risk |
-
-## Why This Pipeline Scores ≥ 0.70
-
-| Upgrade | Effect |
-|---|---|
-| SBERT embeddings | Semantic proximity → cluster-worthy geometry |
-| UMAP cosine metric | Breaks 384D curse, preserves similarity manifold |
-| 600 samples (200/class) | Generalizable clusters, no overfit |
-| Geodesic K-Means++ init | Maximally spread sphere seeds |
-| Curvature-aware centroids | Fréchet mean respects manifold geometry |
-| σ auto-tuning | Optimal kernel width for this dataset |
-| 20 random restarts | Best run over initialization variance |
